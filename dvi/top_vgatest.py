@@ -1,7 +1,7 @@
 import argparse
 
 from nmigen import *
-from nmigen.build import Platform
+from nmigen.build import *
 from nmigen_boards.ulx3s import *
 
 from blink import Blink
@@ -10,6 +10,20 @@ from vga import VGA
 from vga_timings import *
 from ecp5pll import ECP5PLL
 
+# The GPDI pins are not defined in the ULX3S platform in nmigen_boards. I've created a
+# pull request, so until it is accepted and merged, we can define it here and add to
+# the platform ourselves.
+gpdi_resource = [
+    # GPDI
+    Resource("gpdi", 0, DiffPairs("A16", "B16"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi", 1, DiffPairs("A14", "C14"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi", 2, DiffPairs("A12", "A13"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi", 3, DiffPairs("A17", "B18"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi_eth", 0, DiffPairs("A19", "B20"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi_cec", 0, Pins("A18"), Attrs(IO_TYPE="LVCMOS33", DRIVE="4", PULLMODE="UP")),
+    Resource("gpdi_sda", 0, Pins("B19"), Attrs(IO_TYPE="LVCMOS33", DRIVE="4", PULLMODE="UP")),
+    Resource("gpdi_scl", 0, Pins("E12"), Attrs(IO_TYPE="LVCMOS33", DRIVE="4", PULLMODE="UP")),
+]
 
 #  Modes tested on an ASUS monitor:
 #
@@ -212,6 +226,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     platform = variants[args.variant]()
+
+    # Add the GPDI resource defined above to the platform so we
+    # can reference it below.
+    platform.add_resources(gpdi_resource)
 
     m = Module()
     m.submodules.top = top = TopVGATest(timing=vga_timings['1280x800@60Hz CVT-RB'])
