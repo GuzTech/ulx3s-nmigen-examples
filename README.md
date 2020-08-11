@@ -14,3 +14,6 @@ python top_vgatest.py 85F
 ```
 
 in the `dvi` folder.
+
+# Extra information
+You need to have [nmigen-boards](https://github.com/nmigen/nmigen-boards) installed, and add the GDPI pins to the list of resources. The easiest way to this (until the pull request is merged) is to use [this file](https://github.com/nmigen/nmigen-boards/blob/b95f5a11b3174ea0c9a7c8dfa7cb187c178b9034/nmigen_boards/ulx3s.py). Just replace the contents of your ulx3s.py file, or just copy & paste [these lines](https://github.com/nmigen/nmigen-boards/blob/b95f5a11b3174ea0c9a7c8dfa7cb187c178b9034/nmigen_boards/ulx3s.py#L107-L115) to your own file.
