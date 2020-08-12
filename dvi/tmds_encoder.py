@@ -8,7 +8,7 @@ class TMDSEncoder(Elaboratable):
         self.i_c = Signal(2)
         self.i_blank = Signal()
         self.o_encoded = Signal(10)
-    
+
     def elaborate(self, platform: Platform) -> Module:
         m = Module()
 

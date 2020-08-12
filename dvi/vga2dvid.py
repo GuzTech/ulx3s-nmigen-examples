@@ -1,5 +1,3 @@
-
-
 from nmigen import *
 from nmigen.build import Platform
 
@@ -47,7 +45,7 @@ class VGA2DVID(Elaboratable):
         encoded_red   = Signal(10)
         encoded_green = Signal(10)
         encoded_blue  = Signal(10)
-        
+
         latched_red   = Signal(10, reset=0)
         latched_green = Signal(10, reset=0)
         latched_blue  = Signal(10, reset=0)
@@ -127,7 +125,7 @@ class VGA2DVID(Elaboratable):
                 self.o_green_par.eq(latched_green),
                 self.o_blue_par.eq(latched_blue),
             ]
-        
+
         # SDR
         if (self.serial and not self.ddr):
             with m.If(shift_clock[4:6] == SHIFT_CLOCK_INITIAL[4:6]):
@@ -142,7 +140,7 @@ class VGA2DVID(Elaboratable):
                     shift_green.eq(Cat(shift_green[1:10], 0b0)),
                     shift_blue.eq(Cat(shift_blue[1:10], 0b0))
                 ]
-            
+
             with m.If(R_shift_clock_synchronizer[-1] == 0):
                 m.d.shift += shift_clock.eq(Cat(shift_clock[1:10], shift_clock[:1]))
             with m.Else():
@@ -151,7 +149,7 @@ class VGA2DVID(Elaboratable):
                     m.d.shift += R_sync_fail.eq(0)
                 with m.Else():
                     m.d.shift += R_sync_fail.eq(R_sync_fail + 1)
-        
+
         # DDR
         if (self.serial and self.ddr):
             with m.If(shift_clock[4:6] == SHIFT_CLOCK_INITIAL[4:6]):
@@ -166,7 +164,7 @@ class VGA2DVID(Elaboratable):
                     shift_green.eq(Cat(shift_green[2:10], 0b00)),
                     shift_blue.eq(Cat(shift_blue[2:10], 0b00))
                 ]
-            
+
             with m.If(R_shift_clock_synchronizer[-1] == 0):
                 m.d.shift += shift_clock.eq(Cat(shift_clock[2:10], shift_clock[:2]))
             with m.Else():
@@ -177,7 +175,7 @@ class VGA2DVID(Elaboratable):
                     m.d.shift += R_sync_fail.eq(0)
                 with m.Else():
                     m.d.shift += R_sync_fail.eq(R_sync_fail + 1)
-        
+
         # SDR: use only bit 0 from each o_* channel
         # DDR: 2 bits per 1 clock period
         # (one bit output on rising edge, other on falling edge of shift clock)

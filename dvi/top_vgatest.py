@@ -15,14 +15,14 @@ from ecp5pll import ECP5PLL
 # the platform ourselves.
 gpdi_resource = [
     # GPDI
-    Resource("gpdi", 0, DiffPairs("A16", "B16"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
-    Resource("gpdi", 1, DiffPairs("A14", "C14"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
-    Resource("gpdi", 2, DiffPairs("A12", "A13"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
-    Resource("gpdi", 3, DiffPairs("A17", "B18"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi",     0, DiffPairs("A16", "B16"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi",     1, DiffPairs("A14", "C14"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi",     2, DiffPairs("A12", "A13"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
+    Resource("gpdi",     3, DiffPairs("A17", "B18"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
     Resource("gpdi_eth", 0, DiffPairs("A19", "B20"), Attrs(IO_TYPE="LVCMOS33D", DRIVE="4")),
-    Resource("gpdi_cec", 0, Pins("A18"), Attrs(IO_TYPE="LVCMOS33", DRIVE="4", PULLMODE="UP")),
-    Resource("gpdi_sda", 0, Pins("B19"), Attrs(IO_TYPE="LVCMOS33", DRIVE="4", PULLMODE="UP")),
-    Resource("gpdi_scl", 0, Pins("E12"), Attrs(IO_TYPE="LVCMOS33", DRIVE="4", PULLMODE="UP")),
+    Resource("gpdi_cec", 0, Pins("A18"),             Attrs(IO_TYPE="LVCMOS33",  DRIVE="4", PULLMODE="UP")),
+    Resource("gpdi_sda", 0, Pins("B19"),             Attrs(IO_TYPE="LVCMOS33",  DRIVE="4", PULLMODE="UP")),
+    Resource("gpdi_scl", 0, Pins("E12"),             Attrs(IO_TYPE="LVCMOS33",  DRIVE="4", PULLMODE="UP")),
 ]
 
 #  Modes tested on an ASUS monitor:
@@ -224,7 +224,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('variant', choices=variants.keys())
     args = parser.parse_args()
-    
+
     platform = variants[args.variant]()
 
     # Add the GPDI resource defined above to the platform so we
@@ -242,7 +242,7 @@ if __name__ == "__main__":
             platform.request("led", 5),
             platform.request("led", 6),
             platform.request("led", 7)]
-    
+
     for i in range(len(leds)):
         m.d.comb += leds[i].eq(top.o_led[i])
 
@@ -265,10 +265,10 @@ if __name__ == "__main__":
             platform.request("gpdi", 1, dir='-'),
             platform.request("gpdi", 2, dir='-'),
             platform.request("gpdi", 3, dir='-')]
-    
+
     for i in range(len(gpdi)):
         m.d.comb += gpdi[i].p.eq(top.o_gpdi_dp[i])
-    
+
     user_program = platform.request("program")
 
     # m.d.comb += user_program.eq(top.o_user_programn)

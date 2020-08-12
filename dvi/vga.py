@@ -104,11 +104,11 @@ class VGA(Elaboratable):
                     m.d.pixel += CounterY.eq(CounterY + 1)
             with m.Else():
                 m.d.pixel += CounterX.eq(CounterX + 1)
-            
+
             m.d.pixel += R_fetch_next.eq(R_disp_early)
         with m.Else():
             m.d.pixel += R_fetch_next.eq(0)
-        
+
         m.d.comb += [
             self.o_beam_x.eq(CounterX),
             self.o_beam_y.eq(CounterY),
@@ -130,7 +130,7 @@ class VGA(Elaboratable):
             m.d.pixel += R_hsync.eq(1)
         with m.Elif(CounterX == C_hsync_off):
             m.d.pixel += R_hsync.eq(0)
-        
+
         with m.If(CounterY == C_vblank_on):
             m.d.pixel += [
                 R_vblank.eq(1),
@@ -145,7 +145,7 @@ class VGA(Elaboratable):
             m.d.pixel += R_vsync.eq(1)
         with m.Elif(CounterY == C_vsync_off):
             m.d.pixel += R_vsync.eq(0)
-        
+
         # Test picture generator
 
         m.d.comb += [
