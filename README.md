@@ -1,5 +1,5 @@
 # ULX3S nMigen examples
-This repository contains [nMigen](https://github.com/nmigen/nmigen)) examples for the [ULX3S FPGA board](https://ulx3s.github.io/). You need to have [Yosys](https://github.com/YosysHQ/yosys), [nextpnr](https://github.com/YosysHQ/nextpnr), [project Trellis](https://github.com/YosysHQ/prjtrellis), and [openFPGAloader](https://github.com/trabucayre/openFPGALoader) installed.
+This repository contains [nMigen](https://github.com/nmigen/nmigen) examples for the [ULX3S FPGA board](https://ulx3s.github.io/). You need to have [Yosys](https://github.com/YosysHQ/yosys), [nextpnr](https://github.com/YosysHQ/nextpnr), [project Trellis](https://github.com/YosysHQ/prjtrellis), and [openFPGAloader](https://github.com/trabucayre/openFPGALoader) installed.
 
 Each directory contains an example, which you can build and run by simply running:
 
