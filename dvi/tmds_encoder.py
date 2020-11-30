@@ -102,9 +102,9 @@ class TMDSEncoder(Elaboratable):
             with m.Elif(((dc_bias[3] == 0) & (data_word_disparity[3] == 0)) |
                         ((dc_bias[3] == 1) & (data_word_disparity[3] == 1))):
                 m.d.pixel += self.o_encoded.eq(Cat(data_word_inv[:8], data_word[8], 0b1))
-                m.d.pixel += dc_bias.eq(dc_bias + data_word[8] - data_word_disparity)
+                m.d.pixel += dc_bias.eq(dc_bias + Cat(0b0, data_word[8]) - data_word_disparity)
             with m.Else():
                 m.d.pixel += self.o_encoded.eq(Cat(data_word, 0b0))
-                m.d.pixel += dc_bias.eq(dc_bias - data_word_inv[8] + data_word_disparity)
+                m.d.pixel += dc_bias.eq(dc_bias - Cat(0b0, data_word_inv[8]) + data_word_disparity)
 
         return m
